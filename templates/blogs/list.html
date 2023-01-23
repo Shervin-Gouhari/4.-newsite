@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-3 d-flex justify-content-center">
+            <h3 class="text-center mb-4">List of Posts</h3>
+            {% for post in post_list %}     <!-- post_list = function-based, page_obj = class-based -->
+                <div class="col-lg-3 col-md-4 colo-sm-6 col m-2">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{post.title}}</h5>
+                            <p class="card-text">author : {{post.author}}</p>
+                            <a href="{{post.get_absolute_url}}" class="btn btn-primary">see more</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- paginator (function-based) -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if post_list.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{post_list.previous_page_number}}">Previous</a></li>
+            {% endif %}
+
+            {% for post in post_list.paginator.page_range %}
+              {% if post_list.number == post %}
+                <li class="page-item active"><a class="page-link">{{post}}</a></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{post}}">{{post}}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if post_list.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{post_list.next_page_number}}">Next</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{post_list.paginator.num_pages}}">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <!-- end paginator -->
+
+    <!-- paginator (class-based) -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Previous</a></li>
+          {% endif %}
+
+          {% for post in page_obj.paginator.page_range %}
+            {% if page_obj.number == post %}
+              <li class="page-item active"><a class="page-link">{{post}}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{post}}">{{post}}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">Last</a></li>
+          {% endif %}
+        </ul>
+    </nav>
+    <!-- end paginator -->
+{% endblock content %}

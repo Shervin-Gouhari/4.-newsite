@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul>
+        <li>{{post.author}}</li>
+        <li>{{post}}</li>
+        <li>{{post.title}}</li>
+        <li>{{post.body}}</li>
+        <li>{{post.publish}}</li>
+        <li>{{post.created_at}}</li>
+        <li>{{post.updated_at}}</li>
+        <li>{{post.status}}</li>
+    </ul>
+{% endblock content %}
